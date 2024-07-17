@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Список книг</title>
+</head>
+
+<style>
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    table, th, td {
+        border: 1px solid black;
+    }
+    th, td {
+        padding: 10px;
+        text-align: left;
+    }
+    img {
+        width: 100px;
+    }
+     .cart-actions {
+        margin-top: 10px;
+    }
+</style>
+
+
+<body>
+    <header>
+        <h1>Каталог</h1>
+
+        <div sec:authorize="isAuthenticated()">
+            <form th:action="@{/logout}" th:method="POST">
+                <input type="submit" value="Выйти"/>
+            </form>
+        </div>
+
+        <div sec:authorize="!isAuthenticated()">
+            <form th:action="@{/registration}" th:method="GET">
+                <input type="submit" value="Зарегистрироваться"/>
+            </form>
+            <p>
+            <form th:action="@{/login}" th:method="GET">
+                <button type="submit" class="logout-button">Войти</button>
+            </form>
+        </div>
+        <p>
+        <div th:if="${#authorization.expr('hasRole(''ADMIN'')')}">
+            <a href="employee/add-book">Добавить книгу</a>
+        </div>
+        <p>
+        <div th:if="${#authorization.expr('hasRole(''USER'')')}">
+            <a href="/cart">Корзина</a>
+        </div>
+        <p>
+    </header>
+
+    <table>
+        <thead>
+        <tr>
+            <th>Название</th>
+            <th>Автор</th>
+            <th>Цена</th>
+            <th>Изображение</th>
+            <th>Количество на складе</th>
+        </tr>
+        </thead>
+        <tbody>
+        <th:block th:each="book : ${bookList}">
+            <tr>
+                <td>
+                    <a th:href="@{/{id}(id=${book.id})}" th:text="${book.name}"></a>
+                </td>
+                <td th:text="${book.author}"></td>
+                <td th:text="${book.price}"></td>
+                <td>
+                    <img th:src="${book.url}" alt="Book Image" />
+                </td>
+                <td>
+                    <div th:if="${book.quantity > 5}">
+                        <p>Много</p>
+                    </div>
+                    <div th:if="${book.quantity >= 1 && book.quantity < 5}">
+                        <p>Осталось мало</p>
+                    </div>
+                    <div th:if="${book.quantity < 1}">
+                        <p>Товар закончился</p>
+                    </div>
+                </td>
+            </tr>
+        </th:block>
+        </tbody>
+    </table>
+</body>
+</html>

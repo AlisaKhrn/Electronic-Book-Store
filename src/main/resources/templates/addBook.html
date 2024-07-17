@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Add book</title>
+</head>
+
+<style>
+    .form-container {
+        width: 50%;
+        margin: 0 auto;
+        padding: 20px;
+    }
+    .form-group {
+        margin-bottom: 15px;
+    }
+    .form-group label {
+        display: block;
+        margin-bottom: 5px;
+    }
+    .form-group input, .form-group select {
+        width: 100%;
+        padding: 8px;
+        box-sizing: border-box;
+    }
+    .form-group .error {
+        border: 1px solid red;
+    }
+    .form-group .error-message {
+        color: red;
+        font-size: 0.9em;
+    }
+    .form-actions {
+        text-align: center;
+    }
+    .form-actions input {
+        padding: 10px 20px;
+        font-size: 1em;
+        cursor: pointer;
+    }
+    .nav-links {
+        margin-bottom: 20px;
+        text-align: center;
+    }
+    .nav-links a {
+        margin: 0 10px;
+        text-decoration: none;
+        color: #007bff;
+    }
+    .nav-links a:hover {
+        text-decoration: underline;
+    }
+</style>
+<body>
+
+    <div class="nav-links">
+        <a href="/">На главную</a>
+    </div>
+
+    <div class="form-container">
+        <form th:method="POST" th:action="@{/}" th:object="${book}">
+            <div class="form-group">
+                <label for="url">URL картинки</label>
+                <input type="text" th:field="*{url}" id="url" th:classappend="${#fields.hasErrors('url')} ? 'error' : ''"/>
+                <div th:if="${#fields.hasErrors('url')}" th:text="${#fields.errors('url')[0]}" class="error-message"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="name">Название</label>
+                <input type="text" th:field="*{name}" id="name" th:classappend="${#fields.hasErrors('name')} ? 'error' : ''"/>
+                <div th:if="${#fields.hasErrors('name')}" th:text="${#fields.errors('name')[0]}" class="error-message"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="author">Автор</label>
+                <input type="text" th:field="*{author}" id="author" th:classappend="${#fields.hasErrors('author')} ? 'error' : ''"/>
+                <div th:if="${#fields.hasErrors('author')}" th:text="${#fields.errors('author')[0]}" class="error-message"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="language">Язык</label>
+                <select th:field="*{language}" id="language">
+                    <option th:value="ru" th:text="ru"></option>
+                    <option th:value="eng" th:text="eng"></option>
+                </select>
+                <div th:if="${#fields.hasErrors('language')}" th:errors="*{language}" class="error-message"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="year">Год издания</label>
+                <input type="text" th:field="*{year}" id="year" th:classappend="${#fields.hasErrors('year')} ? 'error' : ''"/>
+                <div th:if="${#fields.hasErrors('year')}" th:text="${#fields.errors('year')[0]}" class="error-message"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="genre">Жанр</label>
+                <select th:field="*{genre}" id="genre">
+                    <option th:value="NoGenre" th:text="NoGenre"></option>
+                    <option th:value="Fiction" th:text="Fiction"></option>
+                    <option th:value="Nonfiction" th:text="Nonfiction"></option>
+                    <option th:value="Fantasy" th:text="Fantasy"></option>
+                    <option th:value="Biography" th:text="Biography"></option>
+                </select>
+                <div th:if="${#fields.hasErrors('genre')}" th:errors="*{genre}" class="error-message"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="ISBN">ISBN</label>
+                <input type="text" th:field="*{ISBN}" id="ISBN" th:classappend="${#fields.hasErrors('ISBN')} ? 'error' : ''"/>
+                <div th:if="${#fields.hasErrors('ISBN')}" th:text="${#fields.errors('ISBN')[0]}" class="error-message"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="price">Цена</label>
+                <input type="text" th:field="*{price}" id="price" th:classappend="${#fields.hasErrors('price')} ? 'error' : ''"/>
+                <div th:if="${#fields.hasErrors('price')}" th:text="${#fields.errors('price')[0]}" class="error-message"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="pageCount">Количество страниц</label>
+                <input type="text" th:field="*{pageCount}" id="pageCount" th:classappend="${#fields.hasErrors('pageCount')} ? 'error' : ''"/>
+                <div th:if="${#fields.hasErrors('pageCount')}" th:text="${#fields.errors('pageCount')[0]}" class="error-message"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="annotation">Описание</label>
+                <input type="text" th:field="*{annotation}" id="annotation" th:classappend="${#fields.hasErrors('annotation')} ? 'error' : ''"/>
+                <div th:if="${#fields.hasErrors('annotation')}" th:text="${#fields.errors('annotation')[0]}" class="error-message"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="rating">Рейтинг</label>
+                <input type="text" th:field="*{rating}" id="rating" th:classappend="${#fields.hasErrors('rating')} ? 'error' : ''"/>
+                <div th:if="${#fields.hasErrors('rating')}" th:text="${#fields.errors('rating')[0]}" class="error-message"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="novelty">Новинка</label>
+                <select th:field="*{novelty}" id="novelty">
+                    <option th:value="true" th:text="true"></option>
+                    <option th:value="false" th:text="false"></option>
+                </select>
+                <div th:if="${#fields.hasErrors('novelty')}" th:errors="*{novelty}" class="error-message"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="quantity">Количество на складе</label>
+                <input type="text" th:field="*{quantity}" id="quantity" th:classappend="${#fields.hasErrors('quantity')} ? 'error' : ''"/>
+                <div th:if="${#fields.hasErrors('quantity')}" th:text="${#fields.errors('quantity')[0]}" class="error-message"></div>
+            </div>
+
+            <div class="form-actions">
+                <input type="submit" value="Добавить"/>
+            </div>
+        </form>
+    </div>
+
+</body>
+</html>

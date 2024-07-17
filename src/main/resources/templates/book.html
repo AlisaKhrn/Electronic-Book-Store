@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Подробнее</title>
+<style>
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #ffffff;
+}
+.container {
+    margin: 20px auto;
+    padding: 20px;
+    background-color: white;
+    display: flex;
+    align-items: flex-start;
+}
+.back-link {
+    display: inline-block;
+    margin-top: 20px;
+    margin-left: 10px;
+}
+.back-link:hover {
+    text-decoration: underline;
+}
+.book-info {
+    display: flex;
+    flex-direction: row;
+}
+.book-info img {
+    max-width: 200px;
+    margin-right: 20px;
+}
+.book-details {
+    display: flex;
+    flex-direction: column;
+}
+.book-details div, .book-details span {
+    margin: 5px 0;
+}
+.label {
+    font-weight: bold;
+    margin-top: 10px;
+}
+.form-container {
+    text-align: left;
+    margin-top: 20px;
+}
+.delete-button {
+    background-color: #ff4c4c;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-left: 20px;
+}
+.form-container, .cart-status {
+    text-align: left;
+    margin-top: 20px;
+}
+.cart-status {
+    display: flex;
+    align-items: center;
+}
+.cart-status span {
+    margin-right: 10px;
+}
+.add-button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+.add-button:hover {
+    background-color: #45a049;
+}
+.delete-button:hover {
+    background-color: #ff0000;
+}
+</style>
+</head>
+<body>
+
+    <div>
+        <a href="/" class="back-link">Назад</a>
+    </div>
+
+    <h3 style="margin-left: 20px;">Подробнее о книге</h3>
+
+    <div class="container">
+        <div class="book-info">
+            <img th:src="${book.url}" alt="Book Cover">
+            <div class="book-details">
+                <div>
+                    <span class="label">Название: </span>
+                    <span th:text="${book.name}">Name</span>
+                </div>
+                <div>
+                    <span class="label">Автор: </span>
+                    <span th:text="${book.author}">Author</span>
+                </div>
+                <div>
+                    <span class="label">Описание: </span>
+                    <span th:text="${book.annotation}">Annotation</span>
+                </div>
+                <div>
+                    <span class="label">Язык:</span>
+                    <span th:text="${book.language}">Language</span>
+                </div>
+                <div>
+                    <span class="label">Год издания:</span>
+                    <span th:text="${book.year}">Year</span>
+                </div>
+                <div>
+                    <span class="label">Жанр:</span>
+                    <span th:text="${book.genre}">Genre</span>
+                </div>
+                <div>
+                    <span class="label">ISBN:</span>
+                    <span th:text="${book.ISBN}">ISBN</span>
+                </div>
+                <div>
+                    <span class="label">Цена:</span>
+                    <span th:text="${book.price}">Price</span>
+                </div>
+                <div>
+                    <span class="label">Количество страниц:</span>
+                    <span th:text="${book.pageCount}">Page Count</span>
+                </div>
+                <div>
+                    <span class="label">Рейтинг:</span>
+                    <span th:text="${book.rating}">Rating</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div th:if="${#authorization.expr('hasRole(''ADMIN'')')}">
+        <div class="form-container">
+            <form th:method="DELETE" th:action="@{/{id}(id=${book.getId()})}">
+                <input type="submit" class="delete-button" value="Удалить"/>
+            </form>
+        </div>
+    </div>
+
+    <div th:if="${#authorization.expr('hasRole(''USER'')')}">
+        <input type="submit" class="add-button e-button" value="Добавить в корзину"/>
+    </div>
+
+</body>
+</html>

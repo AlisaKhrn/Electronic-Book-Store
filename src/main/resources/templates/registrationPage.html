@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Регистрация</title>
+</head>
+<body>
+
+    <h2>Регистрация</h2>
+    <form action="/process_registration" method="post" th:object="${person}">
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+
+        <label for="username">Имя</label>
+        <input type="text" th:field="*{username}" id="username" th:classappend="${#fields.hasErrors('username')} ? 'error' : 'form-input'"/>
+        <div th:if="${#fields.hasErrors('username')}" th:text="${#fields.errors('username').get(#fields.errors('username').size() - 1)}" ></div>
+        <p>
+        <label for="password">Пароль</label>
+        <input type="password" th:field="*{password}" id="password" th:classappend="${#fields.hasErrors('password')} ? 'error' : 'form-input'"/>
+        <div th:if="${#fields.hasErrors('password')}" th:text="${#fields.errors('password').get(#fields.errors('password').size() - 1)}" ></div>
+        <p>
+        <button type="submit">Зарегистрироваться</button>
+    </form>
+</body>
+</html>
